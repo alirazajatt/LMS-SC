@@ -221,7 +221,12 @@ namespace LocationManagementSystem
                                               where alert != null && alert.CNICNumber == this.mCNICNumber
                                               select alert).FirstOrDefault();
 
-                    bool alertDisabled = chAlertInfos.DisableAlert;
+                    bool alertDisabled = false;
+
+                    if (chAlertInfos != null)
+                    {
+                        alertDisabled = chAlertInfos.DisableAlert;
+                    }
 
                     if (alertDisabled)
                     {
@@ -543,7 +548,7 @@ namespace LocationManagementSystem
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
 
                 checkedInInfo.CheckInToPlant = SearchForm.mIsPlant;
-                checkedInInfo.CheckInToPlant = !SearchForm.mIsPlant;
+                checkedInInfo.CheckInToColony = !SearchForm.mIsPlant;
                 checkedInInfo.FirstName = cardHolderInfo.FirstName;
                 checkedInInfo.CardHolderInfos = cardHolderInfo;
                 checkedInInfo.CNICNumber = this.mCNICNumber;

@@ -107,8 +107,9 @@ namespace LocationManagementSystem
                 else
                 {
 
-                    DateTime fromDate = new DateTime(DateTime.Now.Year, 10, 1);
-                    DateTime toDate = new DateTime(DateTime.Now.Year + 1, 10, 1);
+                    //system deplymenrt date is 1/jan/2017 requirement is get user yearly report
+                    DateTime fromDate = new DateTime(2018, 04, 1);
+                    DateTime toDate = DateTime.Now;
 
                     BlockedPersonInfo lastBlockedPerson = (from block in blocks
                                                            where block != null &&

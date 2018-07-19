@@ -781,6 +781,7 @@ namespace LocationManagementSystem
                 {
                     alertInfo.DisableAlert = true;
                     alertInfo.DisableAlertDate = DateTime.Now;
+                    alertInfo.EnableAlertDate = DateTime.MaxValue;
                 }
                 else
                 {

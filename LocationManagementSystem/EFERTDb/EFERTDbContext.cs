@@ -13,12 +13,6 @@ namespace LocationManagementSystem
         {
             Database.SetInitializer<EFERTDbContext>(null);
         }
-
-
-        //public EFERTDbContext() : base("name=EFERTDb")
-        //{
-        //    Database.SetInitializer<EFERTDbContext>(new  CreateDatabaseIfNotExists<EFERTDbContext>());
-        //}
         public DbSet<CardHolderInfo> CardHolders { get; set; }
 
         public DbSet<CadreInfo> Cadres { get; set; }
