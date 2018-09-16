@@ -21,7 +21,15 @@ namespace LocationManagementSystem
                                       where company != null
                                       select company.CompanyName).ToList();
 
-            this.cbxCompanyName.Items.AddRange(companies.ToArray());
+            List<string> companiesfilter = new List<string>();
+            for (int i=0; i<companies.Count;i++)
+            {
+                if (companies[i] != null)
+                {
+                    companiesfilter.Add(companies[i]);
+                }
+            }
+            this.cbxCompanyName.Items.AddRange(companiesfilter.ToArray());
         }
 
         private void btnCheckIn_Click(object sender, EventArgs e)

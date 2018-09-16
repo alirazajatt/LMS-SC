@@ -171,6 +171,7 @@
             this.nuNoOfBlockUserDays.Name = "nuNoOfBlockUserDays";
             this.nuNoOfBlockUserDays.Size = new System.Drawing.Size(191, 29);
             this.nuNoOfBlockUserDays.TabIndex = 66;
+            this.nuNoOfBlockUserDays.Maximum = 1000;
             // 
             // label1
             // 
@@ -190,6 +191,8 @@
             this.nuNoEmailNotificationDays.Name = "nuNoEmailNotificationDays";
             this.nuNoEmailNotificationDays.Size = new System.Drawing.Size(191, 29);
             this.nuNoEmailNotificationDays.TabIndex = 64;
+            this.nuNoEmailNotificationDays.Maximum = 1000;
+
             // 
             // label2
             // 

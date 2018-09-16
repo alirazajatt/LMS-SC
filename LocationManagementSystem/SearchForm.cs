@@ -128,9 +128,10 @@ namespace LocationManagementSystem
 
         private void SearchCardHolderFromBarcodeReader(string barcodeString)
         {
+
             string[] arrBarcode = barcodeString.Split('\r');
 
-            if (arrBarcode.Length == 1 || arrBarcode.Length == 3)
+            if (arrBarcode.Length == 1 || arrBarcode.Length == 2|| arrBarcode.Length == 3)
             {
                 //smart card or Overseas
                 string barcodeSplit = arrBarcode.Length == 3 ? arrBarcode[1] : arrBarcode[0];
