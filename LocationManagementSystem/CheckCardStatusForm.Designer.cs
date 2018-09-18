@@ -73,6 +73,9 @@
             this.cbxCompanyName.Name = "cbxCompanyName";
             this.cbxCompanyName.Size = new System.Drawing.Size(271, 29);
             this.cbxCompanyName.TabIndex = 73;
+            this.cbxCompanyName.Sorted = true;
+            this.cbxCompanyName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxCompanyName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // label3
             // 

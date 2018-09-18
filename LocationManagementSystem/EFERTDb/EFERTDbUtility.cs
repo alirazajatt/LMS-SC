@@ -22,30 +22,34 @@ namespace LocationManagementSystem
         public static string CONST_SYSTEM_BLOCKED_BY = "System";
         public static string CONST_SYSTEM_LIMIT_REACHED_REASON = "System has block this person because maximum limit of temporary check in has reached.";
 
-        public static void InitializeDatabases()
+        public static void InitializeDatabases(bool isApplicationStarting=true)
         {
             mEFERTDb = new EFERTDbContext();
             mCCFTCentral = new CCFTCentral();
-            try
-            {
-                Cardholder cardHolderByNic = (from pds in mCCFTCentral.PersonalDataStrings
-                                              where pds != null && pds.PersonalDataFieldID == 5051 && pds.Value != null && pds.Value == "12345-1234567-1"
-                                              select pds.Cardholder).FirstOrDefault();
-            }
-            catch (Exception e)
-            {
-                
-            }
 
-            try
+            if (isApplicationStarting)
             {
-                mVisitingLocations = (from visitLocation in mEFERTDb.VisitingLocations
-                                      where visitLocation != null
-                                      select visitLocation).ToList();
-            }
-            catch (Exception e)
-            {
-                
+                try
+                {
+                    Cardholder cardHolderByNic = (from pds in mCCFTCentral.PersonalDataStrings
+                                                  where pds != null && pds.PersonalDataFieldID == 5051 && pds.Value != null && pds.Value == "12345-1234567-1"
+                                                  select pds.Cardholder).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+
+                }
+
+                try
+                {
+                    mVisitingLocations = (from visitLocation in mEFERTDb.VisitingLocations
+                                          where visitLocation != null
+                                          select visitLocation).ToList();
+                }
+                catch (Exception e)
+                {
+
+                }
             }
             
         }

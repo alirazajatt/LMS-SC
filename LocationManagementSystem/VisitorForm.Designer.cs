@@ -163,6 +163,9 @@
             this.cbxVisitorType.Name = "cbxVisitorType";
             this.cbxVisitorType.Size = new System.Drawing.Size(325, 29);
             this.cbxVisitorType.TabIndex = 67;
+            this.cbxVisitorType.Sorted = true;
+            this.cbxVisitorType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxVisitorType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // cbxSchoolCollege
             // 
@@ -178,6 +181,9 @@
             this.cbxSchoolCollege.Size = new System.Drawing.Size(251, 29);
             this.cbxSchoolCollege.TabIndex = 11;
             this.cbxSchoolCollege.Visible = false;
+            this.cbxSchoolCollege.Sorted = true;
+            this.cbxSchoolCollege.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxSchoolCollege.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // lblSchoolCollege
             // 
@@ -456,6 +462,9 @@
             this.cbxAreaOfVisit.Name = "cbxAreaOfVisit";
             this.cbxAreaOfVisit.Size = new System.Drawing.Size(222, 29);
             this.cbxAreaOfVisit.TabIndex = 1;
+            this.cbxAreaOfVisit.Sorted = true;
+            this.cbxAreaOfVisit.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxAreaOfVisit.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // groupBox2
             // 

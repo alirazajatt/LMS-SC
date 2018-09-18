@@ -163,6 +163,9 @@
             this.cbxDesignation.Name = "cbxDesignation";
             this.cbxDesignation.Size = new System.Drawing.Size(381, 29);
             this.cbxDesignation.TabIndex = 73;
+            this.cbxDesignation.Sorted = true;
+            this.cbxDesignation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxDesignation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // cbxCadre
             // 
@@ -173,6 +176,9 @@
             this.cbxCadre.Name = "cbxCadre";
             this.cbxCadre.Size = new System.Drawing.Size(381, 29);
             this.cbxCadre.TabIndex = 72;
+            this.cbxCadre.Sorted = true;
+            this.cbxCadre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxCadre.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // cbxCompanyName
             // 
@@ -183,6 +189,10 @@
             this.cbxCompanyName.Name = "cbxCompanyName";
             this.cbxCompanyName.Size = new System.Drawing.Size(381, 29);
             this.cbxCompanyName.TabIndex = 71;
+            this.cbxCompanyName.Sorted = true;
+            this.cbxCompanyName.Sorted = true;
+            this.cbxCompanyName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxCompanyName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // cbxSection
             // 
@@ -193,6 +203,9 @@
             this.cbxSection.Name = "cbxSection";
             this.cbxSection.Size = new System.Drawing.Size(381, 29);
             this.cbxSection.TabIndex = 70;
+            this.cbxSection.Sorted = true;
+            this.cbxSection.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxSection.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // cbxDepartment
             // 
@@ -203,6 +216,9 @@
             this.cbxDepartment.Name = "cbxDepartment";
             this.cbxDepartment.Size = new System.Drawing.Size(381, 29);
             this.cbxDepartment.TabIndex = 69;
+            this.cbxDepartment.Sorted = true;
+            this.cbxDepartment.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxDepartment.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // cbxClubType
             // 
@@ -217,6 +233,9 @@
             this.cbxClubType.Size = new System.Drawing.Size(381, 29);
             this.cbxClubType.TabIndex = 67;
             this.cbxClubType.Visible = false;
+            this.cbxClubType.Sorted = true;
+            this.cbxClubType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxClubType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             // 
             // lblClubType
             // 

@@ -128,6 +128,7 @@ namespace LocationManagementSystem
 
         private void SearchCardHolderFromBarcodeReader(string barcodeString)
         {
+            EFERTDbUtility.InitializeDatabases(false);
 
             string[] arrBarcode = barcodeString.Split('\r');
 
