@@ -44,9 +44,26 @@ namespace LocationManagementSystem
         {
             DataGridViewRow row = this.dgvCompanys.Rows[e.RowIndex];
 
-            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            string companyName = row.Cells[1].Value as string;
+
+            if (row == null || string.IsNullOrEmpty(companyName))
             {
                 this.dgvCompanys.CancelEdit();
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(companyName))
+            {
+                companyName = companyName.Trim().ToLower();
+            }
+
+            List<CompanyInfo> companies = EFERTDbUtility.mEFERTDb.Companies.ToList();
+            bool companyAlradyExist = companies.Exists(c => c.CompanyName.Trim().ToLower() == companyName);
+
+            if (companyAlradyExist)
+            {
+                this.dgvCompanys.CancelEdit();
+                return;
             }
 
             CompanyInfo company = null;

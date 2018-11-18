@@ -24,13 +24,21 @@ namespace LocationManagementSystem
 
         public static void InitializeDatabases(bool isApplicationStarting=true)
         {
+               
+            if (mEFERTDb != null)
+            {
+                mEFERTDb.Dispose();
+            }
+
             mEFERTDb = new EFERTDbContext();
-            mCCFTCentral = new CCFTCentral();
+           
 
             if (isApplicationStarting)
             {
                 try
                 {
+                    mCCFTCentral = new CCFTCentral();
+
                     Cardholder cardHolderByNic = (from pds in mCCFTCentral.PersonalDataStrings
                                                   where pds != null && pds.PersonalDataFieldID == 5051 && pds.Value != null && pds.Value == "12345-1234567-1"
                                                   select pds.Cardholder).FirstOrDefault();

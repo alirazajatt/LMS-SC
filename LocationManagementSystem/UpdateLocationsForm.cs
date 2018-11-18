@@ -143,9 +143,26 @@ namespace LocationManagementSystem
         {
             DataGridViewRow row = this.dgvPlantLocations.Rows[e.RowIndex];
 
-            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            string location = row.Cells[1].Value as string;
+
+            if (row == null || string.IsNullOrEmpty(location))
             {
                 this.dgvPlantLocations.CancelEdit();
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                location = location.Trim().ToLower();
+            }
+
+            List<VisitingLocations> visitingLocations = EFERTDbUtility.mEFERTDb.VisitingLocations.ToList();
+            bool locAlradyExist = visitingLocations.Exists(c => c.Location.Trim().ToLower() == location && c.IsOnPlant);
+
+            if (locAlradyExist)
+            {
+                this.dgvPlantLocations.CancelEdit();
+                return;
             }
 
             VisitingLocations visitingLocation = null;
@@ -199,9 +216,26 @@ namespace LocationManagementSystem
         {
             DataGridViewRow row = this.dgvColonyLocations.Rows[e.RowIndex];
 
-            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            string location = row.Cells[1].Value as string;
+
+            if (row == null || string.IsNullOrEmpty(location))
             {
                 this.dgvColonyLocations.CancelEdit();
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                location = location.Trim().ToLower();
+            }
+
+            List<VisitingLocations> visitingLocations = EFERTDbUtility.mEFERTDb.VisitingLocations.ToList();
+            bool locAlradyExist = visitingLocations.Exists(c => c.Location.Trim().ToLower() == location && !c.IsOnPlant);
+
+            if (locAlradyExist)
+            {
+                this.dgvColonyLocations.CancelEdit();
+                return;
             }
 
             VisitingLocations visitingLocation = null;

@@ -44,9 +44,26 @@ namespace LocationManagementSystem
         {
             DataGridViewRow row = this.dgvDepartments.Rows[e.RowIndex];
 
-            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            string depart = row.Cells[1].Value as string;
+
+            if (row == null || string.IsNullOrEmpty(depart))
             {
                 this.dgvDepartments.CancelEdit();
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(depart))
+            {
+                depart = depart.Trim().ToLower();
+            }
+
+            List<DepartmentInfo> departments = EFERTDbUtility.mEFERTDb.Departments.ToList();
+            bool departAlradyExist = departments.Exists(c => c.DepartmentName.Trim().ToLower() == depart);
+
+            if (departAlradyExist)
+            {
+                this.dgvDepartments.CancelEdit();
+                return;
             }
 
             DepartmentInfo department = null;

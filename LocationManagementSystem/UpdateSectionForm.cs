@@ -44,9 +44,26 @@ namespace LocationManagementSystem
         {
             DataGridViewRow row = this.dgvSections.Rows[e.RowIndex];
 
-            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            string sectionVal = row.Cells[1].Value as string;
+
+            if (row == null || string.IsNullOrEmpty(sectionVal))
             {
                 this.dgvSections.CancelEdit();
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(sectionVal))
+            {
+                sectionVal = sectionVal.Trim().ToLower();
+            }
+
+            List<SectionInfo> sections = EFERTDbUtility.mEFERTDb.Sections.ToList();
+            bool secAlradyExist = sections.Exists(c => c.SectionName.Trim().ToLower() == sectionVal );
+
+            if (secAlradyExist)
+            {
+                this.dgvSections.CancelEdit();
+                return;
             }
 
             SectionInfo section = null;

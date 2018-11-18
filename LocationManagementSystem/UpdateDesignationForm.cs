@@ -44,9 +44,26 @@ namespace LocationManagementSystem
         {
             DataGridViewRow row = this.dgvDesignation.Rows[e.RowIndex];
 
-            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            string designationVal = row.Cells[1].Value as string;
+
+            if (row == null || string.IsNullOrEmpty(designationVal))
             {
                 this.dgvDesignation.CancelEdit();
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(designationVal))
+            {
+                designationVal = designationVal.Trim().ToLower();
+            }
+
+            List<DesignationInfo> designations = EFERTDbUtility.mEFERTDb.Designations.ToList();
+            bool designationAlradyExist = designations.Exists(c => c.Designation.Trim().ToLower() == designationVal);
+
+            if (designationAlradyExist)
+            {
+                this.dgvDesignation.CancelEdit();
+                return;
             }
 
             DesignationInfo designation = null;

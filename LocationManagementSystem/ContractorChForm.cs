@@ -24,6 +24,13 @@ namespace LocationManagementSystem
 
         public ContractorChForm(CardHolderInfo cardHolderInfo, bool isTempCard = false)
         {
+            //temp work
+
+            if (Form1.mLoggedInUser.IsAdmin)
+            {
+                this.tbxCNICNumber.ReadOnly = false;
+            }
+
             ContractorCardHolder contractor = null;
 
             if (cardHolderInfo != null)
@@ -151,6 +158,13 @@ namespace LocationManagementSystem
         public ContractorChForm(DailyCardHolder dailyCardHolder)
         {
             InitializeComponent();
+            //temp work
+
+            if (Form1.mLoggedInUser.IsAdmin)
+            {
+                this.tbxCNICNumber.ReadOnly = false;
+            }
+
 
             this.UpdateDropDownFields();
 
@@ -1049,12 +1063,12 @@ namespace LocationManagementSystem
                         {
                             if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem ||
                                 this.mDailyCardHolder.WONumber == this.tbxWONumber.Text ||
-                                this.mDailyCardHolder.FirstName != this.tbxFirstName.Text)
+                                this.mDailyCardHolder.FirstName != this.tbxFirstName.Text|| this.mDailyCardHolder.CNICNumber != this.tbxCNICNumber.Text)
                             {
                                 this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
                                 this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
                                 this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
-
+                                this.mDailyCardHolder.CNICNumber = this.tbxCNICNumber.Text;// temprary work
                                 EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
                             }
                         }
@@ -1150,11 +1164,12 @@ namespace LocationManagementSystem
                     {
                         if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || 
                             this.mDailyCardHolder.WONumber == this.tbxWONumber.Text ||
-                            this.mDailyCardHolder.FirstName != this.tbxFirstName.Text)
+                            this.mDailyCardHolder.FirstName != this.tbxFirstName.Text || this.mDailyCardHolder.CNICNumber != this.tbxCNICNumber.Text)
                         {
                             this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
                             this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
                             this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
+                            this.mDailyCardHolder.CNICNumber = this.tbxCNICNumber.Text;// temprary work
 
                             EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
                         }

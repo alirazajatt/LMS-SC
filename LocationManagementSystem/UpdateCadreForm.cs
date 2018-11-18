@@ -11,11 +11,11 @@ using System.Windows.Forms;
 namespace LocationManagementSystem
 {
     public partial class UpdateCadreForm : Form
-    {
+    {        
         public UpdateCadreForm()
         {
             InitializeComponent();
-
+          
             this.cadreInfoBindingSource.DataSource = (from cadre in EFERTDbUtility.mEFERTDb.Cadres
                                                            where cadre != null
                                                            select cadre).ToList();
@@ -41,14 +41,39 @@ namespace LocationManagementSystem
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
+        {            
             DataGridViewRow row = this.dgvCadres.Rows[e.RowIndex];
 
-            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            string caderVal = row.Cells[1].Value as String;
+
+            if (row == null || string.IsNullOrEmpty(caderVal))
             {
                 this.dgvCadres.CancelEdit();
+                return;
+            }
+            else
+            {
+                string str = caderVal.Replace(" ", String.Empty);
+                if (string.IsNullOrEmpty(str))
+                {
+                    this.dgvCadres.CancelEdit();
+                    return;
+                }
             }
 
+            if (!string.IsNullOrEmpty(caderVal))
+            {
+                caderVal = caderVal.Trim().ToLower();
+            }
+
+            List<CadreInfo> caders = EFERTDbUtility.mEFERTDb.Cadres.ToList();
+            bool caderAlradyExist = caders.Exists(c => c.CadreName.Trim().ToLower() == caderVal);
+
+            if (caderAlradyExist)
+            {
+                this.dgvCadres.CancelEdit();
+                return;
+            }
 
             CadreInfo cadre = null;
 
@@ -106,7 +131,7 @@ namespace LocationManagementSystem
                 DataGridViewRow row = this.dgvCadres.Rows[i];
 
                 row.Tag = lstCadres[i];
-            }
-        }
+            }          
+        }        
     }
 }

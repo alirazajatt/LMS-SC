@@ -44,6 +44,11 @@ namespace LocationManagementSystem
             {
                 this.lblLocation.Text = "Colony";
             }
+            //temprary work
+            if (Form1.mLoggedInUser.IsAdmin) {
+                this.rbtCnicNumberWM.Visible = true;
+            }
+           
         }
 
         private IntermecIsdc.DllErrorCode ScannerInit()
@@ -106,6 +111,14 @@ namespace LocationManagementSystem
         private void SearchCardHolder(string searchString)
         {
             bool isNicNumber = this.maskedTextBox1.Mask == "00000-0000000-0";
+            //temprary work
+            if (this.rbtCnicNumberWM.Checked)
+            {
+                isNicNumber = true;
+            }
+           
+
+           
             if (isNicNumber)
             {
                 if (this.maskedTextBox1.MaskCompleted)
@@ -128,12 +141,15 @@ namespace LocationManagementSystem
 
         private void SearchCardHolderFromBarcodeReader(string barcodeString)
         {
-            EFERTDbUtility.InitializeDatabases(false);
+           // MessageBox.Show(this, "aarrBarcodelenght before spliting." + barcodeString);
 
             string[] arrBarcode = barcodeString.Split('\r');
 
             if (arrBarcode.Length == 1 || arrBarcode.Length == 2|| arrBarcode.Length == 3)
             {
+               // MessageBox.Show(this, "aarrBarcodelenght after spliting."+ arrBarcode.Length);
+
+               // MessageBox.Show(this, "aarrBarcode data." + arrBarcode);
                 //smart card or Overseas
                 string barcodeSplit = arrBarcode.Length == 3 ? arrBarcode[1] : arrBarcode[0];
                 barcodeSplit = barcodeSplit.Replace("\0", string.Empty);
@@ -153,8 +169,8 @@ namespace LocationManagementSystem
                         {
                             nicNumber = nicNumber.Insert(5, "-");
                             nicNumber = nicNumber.Insert(13, "-");
-
-                            SearchCardHolderCore(nicNumber, true);
+                           // MessageBox.Show(this, " CNIC number."+ nicNumber);
+                             SearchCardHolderCore(nicNumber, true);
                         }
                     }
                     else
@@ -207,8 +223,8 @@ namespace LocationManagementSystem
                         {
                             nicNumber = nicNumber.Insert(5, "-");
                             nicNumber = nicNumber.Insert(13, "-");
-
-                            SearchCardHolderCore(nicNumber, true);
+                            //MessageBox.Show(this, "old CNIC number." + nicNumber);
+                             SearchCardHolderCore(nicNumber, true);
                             break;
                         }
                     }
@@ -219,7 +235,9 @@ namespace LocationManagementSystem
         }
 
         private void SearchCardHolderCore(string searchString, bool isNicNumber, bool isTempCard = false, bool isVisitorCard = false)
-        {
+          {
+           
+            EFERTDbUtility.InitializeDatabases(false);
 
             CCFTCentral ccftCentral = EFERTDbUtility.mCCFTCentral;
             Cardholder cardHolder = null;
@@ -259,7 +277,7 @@ namespace LocationManagementSystem
                         {
                             dailyCardHolder = (from daily in EFERTDbUtility.mEFERTDb.DailyCardHolders
                                                where daily != null && daily.CNICNumber == searchString
-                                               select daily).FirstOrDefault();
+                                               select daily).FirstOrDefault();                            
                         }
                     }
                 }
@@ -698,9 +716,18 @@ namespace LocationManagementSystem
             this.maskedTextBox1.Select();
         }
 
+        //temprary work
+        private void rbtCnicNumberWM_CheckedChanged(object sender, EventArgs e)
+        {
+            this.maskedTextBox1.Text = string.Empty;
+            this.maskedTextBox1.Mask = "";
+            this.maskedTextBox1.Select();
+        }
+
         private void rbtCardNumber_CheckedChanged(object sender, EventArgs e)
         {
             //this.rbtCnicNumber.Checked = false;
+            this.maskedTextBox1.Text = string.Empty;
             this.maskedTextBox1.Text = string.Empty;
             this.maskedTextBox1.Mask = "0000000000";
             this.maskedTextBox1.Select();
