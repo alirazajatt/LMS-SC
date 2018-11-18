@@ -24,11 +24,7 @@ namespace LocationManagementSystem
         {
             InitializeComponent();
 
-            //temprary work
-            if (Form1.mLoggedInUser.IsAdmin)
-            {
-                this.tbxCnicNumber.ReadOnly = false;
-            }
+           
 
             this.cbxAreaOfVisit.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l => l.Location).ToArray());
 
@@ -80,7 +76,7 @@ namespace LocationManagementSystem
                 
                 this.btnWebCam.Enabled = false;
                 this.btnBrowse.Enabled = false;
-                this.tbxCnicNumber.ReadOnly = false; //temprary sol
+                this.tbxCnicNumber.ReadOnly = true; 
                 this.cbxVisitorType.Enabled = false;
                 this.cbxGender.Enabled = false;
                 this.tbxFirstName.ReadOnly = true;
@@ -118,11 +114,7 @@ namespace LocationManagementSystem
         public VisitorForm(string cnicNumber,string vistorInfo, string title = null, string gpTitle = null, bool schoolStaff = false)
         {
             InitializeComponent();
-            //temprary work
-            if (Form1.mLoggedInUser.IsAdmin)
-            {
-                this.tbxCnicNumber.ReadOnly = false;
-            }
+            
 
             if (!string.IsNullOrEmpty(title))
             {
@@ -637,14 +629,7 @@ namespace LocationManagementSystem
 
                     this.mVisitor = visitor;
                 }
-                else// temprary work whole else
-                {
-                    if (this.mVisitor.CNICNumber != this.tbxCnicNumber.Text)
-                    {
-                        this.mVisitor.CNICNumber = this.tbxCnicNumber.Text;// temprary work
-                        EFERTDbUtility.mEFERTDb.Entry(this.mVisitor).State = System.Data.Entity.EntityState.Modified;
-                    }
-                }
+              
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
 
@@ -720,11 +705,7 @@ namespace LocationManagementSystem
                 checkedOutInfo.CheckedIn = false;
                 checkedOutInfo.DateTimeOut = Convert.ToDateTime(this.tbxCheckInDateTimeOut.Text);
 
-                if (this.mVisitor.CNICNumber != this.tbxCnicNumber.Text)// temprary work whole block
-                {
-                    this.mVisitor.CNICNumber = this.tbxCnicNumber.Text;// temprary work
-                    EFERTDbUtility.mEFERTDb.Entry(this.mVisitor).State = System.Data.Entity.EntityState.Modified;
-                }
+               
                 
                 try
                 {

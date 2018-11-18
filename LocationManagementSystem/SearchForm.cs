@@ -44,10 +44,7 @@ namespace LocationManagementSystem
             {
                 this.lblLocation.Text = "Colony";
             }
-            //temprary work
-            if (Form1.mLoggedInUser.IsAdmin) {
-                this.rbtCnicNumberWM.Visible = true;
-            }
+           
            
         }
 
@@ -111,13 +108,6 @@ namespace LocationManagementSystem
         private void SearchCardHolder(string searchString)
         {
             bool isNicNumber = this.maskedTextBox1.Mask == "00000-0000000-0";
-            //temprary work
-            if (this.rbtCnicNumberWM.Checked)
-            {
-                isNicNumber = true;
-            }
-           
-
            
             if (isNicNumber)
             {
@@ -716,19 +706,12 @@ namespace LocationManagementSystem
             this.maskedTextBox1.Select();
         }
 
-        //temprary work
-        private void rbtCnicNumberWM_CheckedChanged(object sender, EventArgs e)
-        {
-            this.maskedTextBox1.Text = string.Empty;
-            this.maskedTextBox1.Mask = "";
-            this.maskedTextBox1.Select();
-        }
+        
 
         private void rbtCardNumber_CheckedChanged(object sender, EventArgs e)
         {
             //this.rbtCnicNumber.Checked = false;
-            this.maskedTextBox1.Text = string.Empty;
-            this.maskedTextBox1.Text = string.Empty;
+            this.maskedTextBox1.Text = string.Empty;          
             this.maskedTextBox1.Mask = "0000000000";
             this.maskedTextBox1.Select();
         }
