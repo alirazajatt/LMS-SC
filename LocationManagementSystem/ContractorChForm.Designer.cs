@@ -44,7 +44,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.tbxWONumber = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.tbxCNICNumber = new System.Windows.Forms.TextBox();
+            this.tbxCNICNumber = new System.Windows.Forms.MaskedTextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.tbxContactNumber = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -304,6 +304,7 @@
             this.tbxCNICNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxCNICNumber.Location = new System.Drawing.Point(746, 130);
             this.tbxCNICNumber.Name = "tbxCNICNumber";
+            this.tbxCNICNumber.Mask = "00000-0000000-0";
             this.tbxCNICNumber.ReadOnly = true;
             this.tbxCNICNumber.Size = new System.Drawing.Size(381, 29);
             this.tbxCNICNumber.TabIndex = 10;
@@ -822,7 +823,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox tbxWONumber;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox tbxCNICNumber;
+        private System.Windows.Forms.MaskedTextBox tbxCNICNumber;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbxContactNumber;
         private System.Windows.Forms.Label label9;

@@ -346,7 +346,15 @@ namespace LocationManagementSystem
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
-            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber, this.tbxBlockedBy, this.tbxBlockedReason });
+            if (!this.tbxCnicNumber.MaskCompleted)
+            {
+                MessageBox.Show(this, "Please Enter correct CNIC NUMBER.");
+                this.tbxCnicNumber.ReadOnly = false;
+                this.tbxCnicNumber.BackColor = System.Drawing.Color.White;
+                return;
+            }
+
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName,  this.tbxBlockedBy, this.tbxBlockedReason });
             if (!validtated)
             {
                 MessageBox.Show(this, "Please fill mandatory fields first.");
@@ -488,7 +496,15 @@ namespace LocationManagementSystem
 
         private void btnUnBlock_Click(object sender, EventArgs e)
         {
-            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber, this.tbxUnBlockedBy, this.tbxUnblockReason });
+            if (!this.tbxCnicNumber.MaskCompleted)
+            {
+                MessageBox.Show(this, "Please Enter correct CNIC NUMBER.");
+                this.tbxCnicNumber.ReadOnly = false;
+                this.tbxCnicNumber.BackColor = System.Drawing.Color.White;
+                return;
+            }
+
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName,  this.tbxUnBlockedBy, this.tbxUnblockReason });
             if (!validtated)
             {
                 MessageBox.Show(this, "Please fill mandatory fields first.");
@@ -565,7 +581,15 @@ namespace LocationManagementSystem
         {
             string cardNumber = this.tbxCheckInCardNumber.Text;
 
-            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber, this.tbxCheckInCardNumber });
+            if (!this.tbxCnicNumber.MaskCompleted)
+            {
+                MessageBox.Show(this, "Please Enter correct CNIC NUMBER.");
+                this.tbxCnicNumber.ReadOnly = false;
+                this.tbxCnicNumber.BackColor = System.Drawing.Color.White;
+                return;
+            }
+
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName,  this.tbxCheckInCardNumber });
             if (!validtated)
             {
                 MessageBox.Show(this, "Please fill mandatory fields first.");

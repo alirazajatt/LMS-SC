@@ -57,7 +57,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tbxFirstName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbxCnicNumber = new System.Windows.Forms.TextBox();
+            this.tbxCnicNumber = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbxAreaOfVisit = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -440,6 +440,7 @@
             this.tbxCnicNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxCnicNumber.Location = new System.Drawing.Point(137, 55);
             this.tbxCnicNumber.Name = "tbxCnicNumber";
+            this.tbxCnicNumber.Mask = "00000-0000000-0";
             this.tbxCnicNumber.Size = new System.Drawing.Size(162, 29);
             this.tbxCnicNumber.TabIndex = 2;
             // 
@@ -1010,7 +1011,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbxFirstName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbxCnicNumber;
+        private System.Windows.Forms.MaskedTextBox tbxCnicNumber;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
