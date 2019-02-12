@@ -28,12 +28,25 @@ namespace LocationManagementSystem
 
             this.cbxAreaOfVisit.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l => l.Location).ToArray());
 
+            populateCategoryDropDown();
+                       
 
             if (visitorCardHolder != null)
             {
                 this.mVisitor = visitorCardHolder;
                 this.mVisitorInfo = this.mVisitor.VisitorInfo;
                 this.mCNICNumber = this.mVisitor.CNICNumber;
+
+                this.cbxVFCategory.SelectedItem = this.mVisitorInfo;
+
+                if (!string.IsNullOrEmpty(this.cbxVFCategory.SelectedItem.ToString().Trim()))
+                {
+                    this.cbxVFCategory.BackColor = System.Drawing.Color.White;
+                }
+                else
+                {
+                    this.cbxVFCategory.BackColor = System.Drawing.Color.Yellow;
+                }
 
                 this.tbxCnicNumber.Text = this.mVisitor.CNICNumber;
                 this.cbxGender.SelectedItem = this.mVisitor.Gender;
@@ -106,7 +119,7 @@ namespace LocationManagementSystem
                 this.btnBrowse.Enabled = false;
             }
             
-            this.UpdateStatus(this.mCNICNumber);
+            this.UpdateStatus(this.mCNICNumber,false);//false passed to check is new or existing visitor
 
         }
 
@@ -142,6 +155,20 @@ namespace LocationManagementSystem
 
             this.cbxAreaOfVisit.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l=>l.Location).ToArray());
 
+            populateCategoryDropDown();
+
+            this.cbxVFCategory.SelectedItem = this.mVisitorInfo;
+
+            if (!string.IsNullOrEmpty(this.cbxVFCategory.SelectedItem.ToString().Trim()))
+            {
+                this.cbxVFCategory.BackColor = System.Drawing.Color.White;
+            }
+            else
+            {
+                this.cbxVFCategory.BackColor = System.Drawing.Color.Yellow;
+            }
+           
+
             this.tbxFirstName.BackColor = Color.Yellow;
             this.tbxCheckInCardNumber.BackColor = Color.Yellow;
 
@@ -150,7 +177,87 @@ namespace LocationManagementSystem
             
         }
 
-        private void UpdateStatus(string cnicNumber)
+        public void populateCategoryDropDown()
+        {
+            List<CategoryInfo> inf = (from category in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                      where category != null
+                                      select category).ToList();
+
+            List<string> categories = new List<string>();
+
+            if (SearchForm.mIsPlant)
+            {
+                categories = (from cat in inf
+                              where cat != null && (cat.CategoryLocation == CategoryLocation.Plant.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                              select cat.CategoryName).ToList();
+            }
+            else
+            {
+                categories = (from cat in inf
+                              where cat != null && (cat.CategoryLocation == CategoryLocation.Colony.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                              select cat.CategoryName).ToList();
+            }
+
+            this.cbxVFCategory.Items.AddRange(categories.ToArray());
+        }
+
+        public void categoyVFDropDownChange(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.cbxVFCategory.SelectedItem.ToString().Trim()))
+            {
+                MessageBox.Show("Category can not set empty/null");
+                this.cbxVFCategory.BackColor = System.Drawing.Color.Yellow;
+                return;
+            }
+
+            this.cbxVFCategory.BackColor = System.Drawing.Color.White;
+
+            string contractorInfo = this.cbxVFCategory.SelectedItem.ToString();
+
+            CategoryInfo catInf = (from category in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                      where category != null&&category.CategoryName== contractorInfo
+                                      select category).FirstOrDefault();
+            bool isNonBlockCategory = false;
+
+            if (catInf != null && catInf.CategoryBlockCriteria==CategoryBlockCriteria.No.ToString())
+            {
+                isNonBlockCategory = true;
+            }
+
+            if (contractorInfo == "Visitor" || contractorInfo == "House Servant" || contractorInfo == "Education"|| isNonBlockCategory)//ask here question
+            {
+                this.mVisitorInfo = contractorInfo;
+                //if visitor category change than
+            }
+            else
+            {
+                this.Hide();
+
+                if (mVisitor != null)
+                {
+                    DailyCardHolder dailyCardHolder = new DailyCardHolder();
+                    dailyCardHolder.FirstName = mVisitor.FirstName;
+                    dailyCardHolder.LastName = mVisitor.LastName;
+                    dailyCardHolder.CNICNumber = mVisitor.CNICNumber;
+                    dailyCardHolder.EmergancyContactNumber = mVisitor.ContactNo;
+                    dailyCardHolder.CompanyName = mVisitor.CompanyName;
+                    dailyCardHolder.Picture = mVisitor.Picture;
+
+                    ContractorChForm cch = new ContractorChForm(this.mCNICNumber, contractorInfo, dailyCardHolder);
+                    cch.ShowDialog(this);
+                    //visitor change to worker but check admin is login
+                }
+                else
+                {
+                    ContractorChForm cch = new ContractorChForm(this.mCNICNumber, contractorInfo);
+                    cch.ShowDialog(this);
+                }
+
+            }
+        }
+
+
+        private void UpdateStatus(string cnicNumber,bool isNew=true)
         {
             bool blockedUser = false;
             BlockedPersonInfo blockedPerson = null;
@@ -167,11 +274,13 @@ namespace LocationManagementSystem
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
                 this.btnUnBlock.Enabled = false;
+                this.cbxVFCategory.Enabled = false;
                 return;
             }
 
             if (Form1.mLoggedInUser.IsAdmin)
             {
+                this.cbxVFCategory.Enabled = true;
                 this.btnBlock.Visible = true;
                 this.btnUnBlock.Visible = true;
                 this.tbxBlockedBy.ReadOnly = false;
@@ -181,6 +290,15 @@ namespace LocationManagementSystem
             }
             else
             {
+
+                if (isNew)
+                {
+                    this.cbxVFCategory.Enabled = true;
+                }
+                else
+                {
+                    this.cbxVFCategory.Enabled = false;
+                }
                 this.btnBlock.Visible = false;
                 this.btnUnBlock.Visible = false;
                 this.tbxBlockedBy.ReadOnly = true;
@@ -266,7 +384,43 @@ namespace LocationManagementSystem
             {
                 if (!blockedUser)
                 {
-                    LimitStatus limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns, this.mBlocks);
+                    
+                    List<CategoryInfo> categories = new List<CategoryInfo>();
+                    bool isCheckLimit = true;
+
+                    if (this.mCheckIns.Count > 0)
+                    {
+                        string blockinfo = CategoryBlockCriteria.No.ToString();
+                        if (SearchForm.mIsPlant)
+                        {
+                            categories = (from cat in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                          where cat != null && cat.CategoryBlockCriteria == blockinfo && (cat.CategoryLocation == CategoryLocation.Plant.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                          select cat).ToList();
+                        }
+                        else
+                        {
+                            categories = (from cat in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                          where cat != null && cat.CategoryBlockCriteria == blockinfo && (cat.CategoryLocation == CategoryLocation.Colony.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                          select cat).ToList();
+                        }
+
+                        CheckInAndOutInfo last = this.mCheckIns.Last();
+
+                        bool catExist = categories.Exists(cat => cat.CategoryName == last.Category);
+
+                        if (catExist)
+                        {
+                            isCheckLimit = !catExist;
+                        }
+                       
+                    }
+
+                    LimitStatus limitStatus = LimitStatus.Allowed;
+
+                    if (isCheckLimit)
+                    {
+                        limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns, this.mBlocks);
+                    }                  
 
                     if (limitStatus == LimitStatus.LimitReached)
                     {
@@ -590,6 +744,12 @@ namespace LocationManagementSystem
             }
 
             bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName,  this.tbxCheckInCardNumber });
+
+            if (validtated && this.cbxVFCategory.SelectedItem == null || string.IsNullOrEmpty(this.cbxVFCategory.SelectedItem.ToString().Trim())) 
+            {
+                validtated = false;                
+            }
+
             if (!validtated)
             {
                 MessageBox.Show(this, "Please fill mandatory fields first.");
@@ -673,7 +833,8 @@ namespace LocationManagementSystem
                 checkedInInfo.DateTimeIn = Convert.ToDateTime(this.tbxCheckInDateTimeIn.Text);
                 checkedInInfo.DateTimeOut = DateTime.MaxValue;
                 checkedInInfo.CheckedIn = true;
-                               
+                checkedInInfo.Category= this.mVisitorInfo;
+
                 try
                 {
                     EFERTDbUtility.mEFERTDb.CheckedInInfos.Add(checkedInInfo);
@@ -689,16 +850,6 @@ namespace LocationManagementSystem
 
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = true;
-
-                if (NewColonyChForm.mNewColonyChForm != null)
-                {
-                    NewColonyChForm.mNewColonyChForm.Close();
-                }
-
-                if (NewPlantChForm.mNewPlantChForm != null)
-                {
-                    NewPlantChForm.mNewPlantChForm.Close();
-                }
 
                 this.Close();
             }
@@ -747,15 +898,7 @@ namespace LocationManagementSystem
                 this.btnCheckIn.Enabled = true;
                 this.btnCheckOut.Enabled = false;
 
-                if (NewColonyChForm.mNewColonyChForm != null)
-                {
-                    NewColonyChForm.mNewColonyChForm.Close();
-                }
-
-                if (NewPlantChForm.mNewPlantChForm != null)
-                {
-                    NewPlantChForm.mNewPlantChForm.Close();
-                }
+               
                 this.Close();
             }
             else

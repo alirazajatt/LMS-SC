@@ -228,7 +228,7 @@ namespace LocationManagementSystem
           {
            
             EFERTDbUtility.InitializeDatabases(false);
-
+            
             CCFTCentral ccftCentral = EFERTDbUtility.mCCFTCentral;
             Cardholder cardHolder = null;
             CardHolderInfo cardHolderInfo = null;
@@ -259,15 +259,16 @@ namespace LocationManagementSystem
 
                     if (cardHolder == null)
                     {
-                        visitor = (from visit in EFERTDbUtility.mEFERTDb.Visitors
-                                   where visit != null && visit.CNICNumber == searchString
-                                   select visit).FirstOrDefault();
+                        dailyCardHolder = (from daily in EFERTDbUtility.mEFERTDb.DailyCardHolders
+                                           where daily != null && daily.CNICNumber == searchString
+                                           select daily).FirstOrDefault();
+                       
 
-                        if (visitor == null)
+                        if (dailyCardHolder == null)
                         {
-                            dailyCardHolder = (from daily in EFERTDbUtility.mEFERTDb.DailyCardHolders
-                                               where daily != null && daily.CNICNumber == searchString
-                                               select daily).FirstOrDefault();                            
+                            visitor = (from visit in EFERTDbUtility.mEFERTDb.Visitors
+                                       where visit != null && visit.CNICNumber == searchString
+                                       select visit).FirstOrDefault();
                         }
                     }
                 }
@@ -311,13 +312,13 @@ namespace LocationManagementSystem
 
                     if (cardIssued != null)
                     {
-                        visitor = cardIssued.Visitors;
-
-                        if (visitor == null)
+                        dailyCardHolder = cardIssued.DailyCardHolders;
+                       
+                        if (dailyCardHolder == null)
                         {
-                            dailyCardHolder = cardIssued.DailyCardHolders;
+                            visitor = cardIssued.Visitors;
 
-                            if (dailyCardHolder == null)
+                            if (visitor == null)
                             {
                                 cardHolderInfo = cardIssued.CardHolderInfos;
 
@@ -427,20 +428,10 @@ namespace LocationManagementSystem
 
             if (cardHolder == null && cardHolderInfo == null && visitor == null && dailyCardHolder == null)
             {
-                if (mIsPlant)
-                {
-                    NewPlantChForm npchf = new NewPlantChForm(searchString);
-
+                
+                   ContractorChForm npchf = new ContractorChForm(searchString);
                     npchf.ShowDialog(this);
-                }
-                else
-                {
-                    NewColonyChForm ncchf = new NewColonyChForm(searchString);
-
-                    ncchf.ShowDialog(this);
-
-
-                }
+                
             }
             else
             {

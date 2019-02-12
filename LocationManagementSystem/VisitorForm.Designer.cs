@@ -104,6 +104,8 @@
             this.label25 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnDisableAlerts = new System.Windows.Forms.Button();
+            this.lblCategory = new System.Windows.Forms.Label();
+            this.cbxVFCategory = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -126,6 +128,8 @@
             this.groupBox1.Controls.Add(this.tbxPhoneNumber);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.tbxCompanyName);
+            this.groupBox1.Controls.Add(this.lblCategory);
+            this.groupBox1.Controls.Add(this.cbxVFCategory);            
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.tbxState);
             this.groupBox1.Controls.Add(this.label8);
@@ -176,7 +180,7 @@
             "Model School",
             "Grammer School",
             "Engro College"});
-            this.cbxSchoolCollege.Location = new System.Drawing.Point(643, 55);
+            this.cbxSchoolCollege.Location = new System.Drawing.Point(643, 90);
             this.cbxSchoolCollege.Name = "cbxSchoolCollege";
             this.cbxSchoolCollege.Size = new System.Drawing.Size(251, 29);
             this.cbxSchoolCollege.TabIndex = 11;
@@ -184,12 +188,39 @@
             this.cbxSchoolCollege.Sorted = true;
             this.cbxSchoolCollege.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbxSchoolCollege.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+
+            // 
+            // lblSchoolCollege
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCategory.Location = new System.Drawing.Point(514, 58);
+            this.lblCategory.Name = "lblCtegoryVf";
+            this.lblCategory.Size = new System.Drawing.Size(123, 21);
+            this.lblCategory.TabIndex = 77;
+            this.lblCategory.Text = "Category";
+            this.lblCategory.Visible = true;
+
+            //cbxCategory
+            this.cbxVFCategory.BackColor = System.Drawing.Color.White;
+            this.cbxVFCategory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxVFCategory.FormattingEnabled = true;
+            this.cbxVFCategory.Location = new System.Drawing.Point(643,55);
+            this.cbxVFCategory.Name = "cbxCategory";
+            this.cbxVFCategory.Size = new System.Drawing.Size(251, 29);
+            this.cbxVFCategory.TabIndex = 76;
+            this.cbxVFCategory.Sorted = true;
+            this.cbxVFCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxVFCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbxVFCategory.SelectedValueChanged += new System.EventHandler(this.categoyVFDropDownChange); //load drop down         
+            this.cbxVFCategory.BackColor = System.Drawing.Color.Yellow;
+
             // 
             // lblSchoolCollege
             // 
             this.lblSchoolCollege.AutoSize = true;
             this.lblSchoolCollege.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSchoolCollege.Location = new System.Drawing.Point(514, 58);
+            this.lblSchoolCollege.Location = new System.Drawing.Point(514, 93);
             this.lblSchoolCollege.Name = "lblSchoolCollege";
             this.lblSchoolCollege.Size = new System.Drawing.Size(123, 21);
             this.lblSchoolCollege.TabIndex = 66;
@@ -1062,5 +1093,7 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.ComboBox cbxVisitorType;
         private System.Windows.Forms.Button btnDisableAlerts;
+        private System.Windows.Forms.Label lblCategory; 
+        private System.Windows.Forms.ComboBox cbxVFCategory;
     }
 }

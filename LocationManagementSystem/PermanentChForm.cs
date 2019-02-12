@@ -247,7 +247,47 @@ namespace LocationManagementSystem
             {
                 if (!blockedUser)
                 {
-                    LimitStatus limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns, this.mBlocks);
+                    
+                    List<CategoryInfo> categories = new List<CategoryInfo>();
+
+                    bool isCheckLimit = true;
+
+                    if (this.mCheckIns.Count > 0)
+                    {
+
+                        string blockinfo = CategoryBlockCriteria.No.ToString();
+                        if (SearchForm.mIsPlant)
+                        {
+                            categories = (from cat in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                          where cat != null && cat.CategoryBlockCriteria == blockinfo && (cat.CategoryLocation == CategoryLocation.Plant.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                          select cat).ToList();
+                        }
+                        else
+                        {
+                            categories = (from cat in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                          where cat != null && cat.CategoryBlockCriteria == blockinfo && (cat.CategoryLocation == CategoryLocation.Colony.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                          select cat).ToList();
+                        }
+
+                        CheckInAndOutInfo last = this.mCheckIns.Last();
+
+                        bool catExist = categories.Exists(cat => cat.CategoryName == last.Category);
+
+                        if (catExist)
+                        {
+                            isCheckLimit = !catExist;
+                        }
+                        
+                    }
+
+                    LimitStatus limitStatus = LimitStatus.Allowed;
+
+                    if (isCheckLimit)
+                    {
+                        limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns, this.mBlocks);
+                    }
+
+                    
 
                     if (limitStatus == LimitStatus.LimitReached)
                     {
@@ -574,15 +614,7 @@ namespace LocationManagementSystem
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = true;
 
-                if (NewColonyChForm.mNewColonyChForm != null)
-                {
-                    NewColonyChForm.mNewColonyChForm.Close();
-                }
-
-                if (NewPlantChForm.mNewPlantChForm != null)
-                {
-                    NewPlantChForm.mNewPlantChForm.Close();
-                }
+                
 
                 this.Close();
             }
@@ -624,15 +656,7 @@ namespace LocationManagementSystem
                 this.btnCheckIn.Enabled = true;
                 this.btnCheckOut.Enabled = false;
 
-                if (NewColonyChForm.mNewColonyChForm != null)
-                {
-                    NewColonyChForm.mNewColonyChForm.Close();
-                }
-
-                if (NewPlantChForm.mNewPlantChForm != null)
-                {
-                    NewPlantChForm.mNewPlantChForm.Close();
-                }
+                
                 this.Close();
             }
             else

@@ -458,6 +458,7 @@
     <Compile Include="Classes\WebCam.cs" />
     <Compile Include="EFERTDb\AlertInfo.cs" />
     <Compile Include="EFERTDb\BlockedPersonInfo.cs" />
+    <Compile Include="EFERTDb\CategoryInfo.cs" />
     <Compile Include="EFERTDb\CheckInAndOutInfo.cs" />
     <Compile Include="Classes\ContractorCardHolder.cs" />
     <Compile Include="EFERTDb\DailyCardHolder.cs" />
@@ -503,6 +504,10 @@
     <Compile Include="Migrations\201707300712514_EmailNotification.Designer.cs">
       <DependentUpon>201707300712514_EmailNotification.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812091116381_categoryTableAndCategoryInCheckin.cs" />
+    <Compile Include="Migrations\201812091116381_categoryTableAndCategoryInCheckin.Designer.cs">
+      <DependentUpon>201812091116381_categoryTableAndCategoryInCheckin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewColonyChForm.cs">
       <SubType>Form</SubType>
@@ -547,6 +552,12 @@
     </Compile>
     <Compile Include="SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateCategories.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateCategories.Designer.cs">
+      <DependentUpon>UpdateCategories.cs</DependentUpon>
     </Compile>
     <Compile Include="UpdateCompanyNameForm.cs">
       <SubType>Form</SubType>
@@ -617,6 +628,9 @@
     <EmbeddedResource Include="Migrations\201707300712514_EmailNotification.resx">
       <DependentUpon>201707300712514_EmailNotification.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812091116381_categoryTableAndCategoryInCheckin.resx">
+      <DependentUpon>201812091116381_categoryTableAndCategoryInCheckin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewColonyChForm.resx">
       <DependentUpon>NewColonyChForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -646,6 +660,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateCategories.resx">
+      <DependentUpon>UpdateCategories.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateCompanyNameForm.resx">
       <DependentUpon>UpdateCompanyNameForm.cs</DependentUpon>

@@ -74,5 +74,19 @@ namespace LocationManagementSystem
 
             systemSettingForm.ShowDialog(this);
         }
+
+
+       
+        private void btnAddorUpdateCategories_Click(object sender, EventArgs e)
+        {
+            UpdateCategories category = new UpdateCategories();
+            category.ShowDialog(this);
+        }
+
+        private void btnDeleteCategories_Click(object sender, EventArgs e)
+        {
+            UpdateCategories category = new UpdateCategories(false);
+            category.ShowDialog(this);
+        }
     }
 }

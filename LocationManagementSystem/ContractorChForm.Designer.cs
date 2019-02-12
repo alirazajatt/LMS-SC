@@ -34,6 +34,8 @@
             this.lblAreaOfWork = new System.Windows.Forms.Label();
             this.cbxDesignation = new System.Windows.Forms.ComboBox();
             this.cbxCadre = new System.Windows.Forms.ComboBox();
+            this.cbxCategory = new System.Windows.Forms.ComboBox();
+            this.lblCategory = new System.Windows.Forms.Label();
             this.cbxCompanyName = new System.Windows.Forms.ComboBox();
             this.cbxSection = new System.Windows.Forms.ComboBox();
             this.cbxDepartment = new System.Windows.Forms.ComboBox();
@@ -58,6 +60,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnDisableAlerts = new System.Windows.Forms.Button();
+            this.btnUpdateRecord = new System.Windows.Forms.Button();
             this.tbxUnBlockTime = new System.Windows.Forms.TextBox();
             this.tbxBlockedTime = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -101,9 +104,10 @@
             this.groupBox1.Controls.Add(this.tbxAreaOfWork);
             this.groupBox1.Controls.Add(this.lblAreaOfWork);
             this.groupBox1.Controls.Add(this.cbxDesignation);
-            this.groupBox1.Controls.Add(this.cbxCadre);
+            this.groupBox1.Controls.Add(this.cbxCadre);                     
             this.groupBox1.Controls.Add(this.cbxCompanyName);
             this.groupBox1.Controls.Add(this.cbxSection);
+            this.groupBox1.Controls.Add(this.cbxCategory);
             this.groupBox1.Controls.Add(this.cbxDepartment);
             this.groupBox1.Controls.Add(this.cbxClubType);
             this.groupBox1.Controls.Add(this.lblClubType);
@@ -124,10 +128,12 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tbxCardNumber);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.lblCategory); 
+            this.groupBox1.Controls.Add(this.btnUpdateRecord);           
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1173, 247);
+            this.groupBox1.Size = new System.Drawing.Size(1173, 370);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Contractor Details";
@@ -153,6 +159,19 @@
             this.lblAreaOfWork.TabIndex = 75;
             this.lblAreaOfWork.Text = "Area Of Work";
             this.lblAreaOfWork.Visible = false;
+
+            // 
+            // btnUpdateRecord
+            // 
+            this.btnUpdateRecord.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdateRecord.Location = new System.Drawing.Point(1019, 240);
+            this.btnUpdateRecord.Name = "btnUpdate";
+            this.btnUpdateRecord.Size = new System.Drawing.Size(108, 45);
+            this.btnUpdateRecord.TabIndex = 77;
+            this.btnUpdateRecord.Text = "Update";
+            this.btnUpdateRecord.UseVisualStyleBackColor = true;
+            this.btnUpdateRecord.Visible = false;
+            this.btnUpdateRecord.Click += new System.EventHandler(this.btnUpdateRecord_Click);
             // 
             // cbxDesignation
             // 
@@ -166,6 +185,21 @@
             this.cbxDesignation.Sorted = true;
             this.cbxDesignation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbxDesignation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+
+            //cbxCategory
+            this.cbxCategory.BackColor = System.Drawing.Color.White;
+            this.cbxCategory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxCategory.FormattingEnabled = true;
+            this.cbxCategory.Location = new System.Drawing.Point(201, 240);
+            this.cbxCategory.Name = "cbxCategory";
+            this.cbxCategory.Size = new System.Drawing.Size(381, 29);
+            this.cbxCategory.TabIndex = 76;
+            this.cbxCategory.Sorted = true;
+            this.cbxCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;          
+            this.cbxCategory.SelectedValueChanged+= new System.EventHandler(this.categoyDropDownChange); //load drop down          
+            this.cbxCategory.BackColor = System.Drawing.Color.Yellow;
+          
             // 
             // cbxCadre
             // 
@@ -277,6 +311,17 @@
             this.label12.Size = new System.Drawing.Size(61, 21);
             this.label12.TabIndex = 22;
             this.label12.Text = "Section";
+            // 
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCategory.Location = new System.Drawing.Point(23, 240);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(61, 21);
+            this.lblCategory.TabIndex = 78;
+            this.lblCategory.Text = "Category";
             // 
             // tbxWONumber
             // 
@@ -439,7 +484,7 @@
             this.groupBox3.Controls.Add(this.tbxBlockedBy);
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(510, 265);
+            this.groupBox3.Location = new System.Drawing.Point(510, 400);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(814, 222);
             this.groupBox3.TabIndex = 4;
@@ -627,7 +672,7 @@
             this.groupBox2.Controls.Add(this.tbxCheckInCardNumber);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(12, 265);
+            this.groupBox2.Location = new System.Drawing.Point(12, 400);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(492, 222);
             this.groupBox2.TabIndex = 3;
@@ -791,9 +836,9 @@
             // 
             // ContractorChForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1333, 499);
+            this.ClientSize = new System.Drawing.Size(1333, 700);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -873,9 +918,12 @@
         private System.Windows.Forms.ComboBox cbxSection;
         private System.Windows.Forms.ComboBox cbxCompanyName;
         private System.Windows.Forms.ComboBox cbxCadre;
+        private System.Windows.Forms.ComboBox cbxCategory;
+        private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.ComboBox cbxDesignation;
         private System.Windows.Forms.TextBox tbxAreaOfWork;
         private System.Windows.Forms.Label lblAreaOfWork;
         private System.Windows.Forms.Button btnDisableAlerts;
+        private System.Windows.Forms.Button btnUpdateRecord;
     }
 }

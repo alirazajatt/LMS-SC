@@ -224,7 +224,7 @@ namespace LocationManagementSystem
 
                         if (count >= daysToEmailNotification)
                         {
-                            if (count == daysToBlock && !isSameDay)
+                            if (count >= daysToBlock && !isSameDay) //== to change >= when add category in checkins
                             {
                                 limitStatus = LimitStatus.LimitReached;
                             }

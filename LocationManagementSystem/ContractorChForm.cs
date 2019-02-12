@@ -82,6 +82,21 @@ namespace LocationManagementSystem
             if (contractor != null)
             {
                 this.mContractorInfo = cardHolderInfo.ConstractorInfo;
+                
+                //category work
+                this.cbxCategory.SelectedItem = this.mContractorInfo; 
+                this.cbxCategory.BackColor = System.Drawing.Color.White;
+
+                if (Form1.mLoggedInUser.IsAdmin)
+                {
+                    this.cbxCategory.Enabled = true;
+                }
+                else
+                {
+                    this.cbxCategory.Enabled = false;
+                }
+               
+
                 this.mIsDailyCardHolder = false;
                 this.mContractorCardHolder = contractor;
                 this.tbxCardNumber.Text = contractor.CardNumber;
@@ -155,13 +170,27 @@ namespace LocationManagementSystem
             InitializeComponent();
             
 
-            this.UpdateDropDownFields();
+            this.UpdateDropDownFields(dailyCardHolder);
 
             if (dailyCardHolder != null)
             {
                 this.mIsDailyCardHolder = true;
                 this.mDailyCardHolder = dailyCardHolder;
                 this.mContractorInfo = dailyCardHolder.ConstractorInfo;
+
+                //category work
+                this.cbxCategory.SelectedItem= dailyCardHolder.ConstractorInfo; //when admin this dropdown should be enable
+                this.cbxCategory.BackColor = System.Drawing.Color.White;
+
+                if (Form1.mLoggedInUser.IsAdmin)
+                {
+                    this.cbxCategory.Enabled = true;
+                }
+                else
+                {
+                    this.cbxCategory.Enabled = false;
+                }
+
                 this.tbxFirstName.Text = dailyCardHolder.FirstName;
                 this.cbxCompanyName.SelectedItem = dailyCardHolder.CompanyName;
                 this.cbxCadre.SelectedItem = dailyCardHolder.Cadre;
@@ -280,11 +309,51 @@ namespace LocationManagementSystem
             this.UpdateStatus(this.mCNICNumber);
         }
 
-        public ContractorChForm(string cnicNumber, string contractorInfo, bool dailyCardHolder = false, string title = null, string gpTitle = null, bool clubStaff = false)
+        //category work
+        public ContractorChForm(string cnicNumber)
         {
             InitializeComponent();
 
             this.UpdateDropDownFields();
+
+            this.mClubStaff = false;
+            this.lblClubType.Visible = false;
+            this.cbxClubType.Visible = false;
+           
+            this.tbxFirstName.ReadOnly = false;
+            this.cbxCompanyName.Enabled = true;
+            this.cbxCadre.Enabled = true;
+            this.cbxDepartment.Enabled = true;
+            this.cbxDesignation.Enabled = true;
+            this.tbxContactNumber.ReadOnly = false;
+            this.tbxCNICNumber.Text = cnicNumber;
+            this.tbxWONumber.ReadOnly = false;
+            this.tbxLastName.ReadOnly = false;
+
+            this.tbxFirstName.BackColor = System.Drawing.Color.Yellow;
+            this.tbxCheckInCardNumber.BackColor = System.Drawing.Color.Yellow;
+            
+            this.tbxContactNumber.BackColor = System.Drawing.Color.White;
+            this.tbxWONumber.BackColor = System.Drawing.Color.White;
+            this.tbxLastName.BackColor = System.Drawing.Color.White;
+
+            this.mIsDailyCardHolder = true;
+            this.mCNICNumber = cnicNumber;
+            this.UpdateLayout(true);
+
+            this.UpdateStatus(cnicNumber);
+        }
+
+        //category work
+        public ContractorChForm(string cnicNumber, string contractorInfo, DailyCardHolder dailyCardHolder = null)
+        {
+            InitializeComponent();
+
+            this.UpdateDropDownFields();
+
+            string title = null;
+            string gpTitle = null;
+            bool clubStaff = false;
 
             if (!string.IsNullOrEmpty(title))
             {
@@ -296,8 +365,53 @@ namespace LocationManagementSystem
                 this.groupBox1.Text = gpTitle;
             }
 
+            if (contractorInfo == "Casual 3P")
+            {
+                title = "Casual 3P Staff Form";
+                gpTitle = "Casual 3P Details";
+            }
+            else if (contractorInfo == "Market Staff")
+            {
+                title = "Market Staff Form";
+                gpTitle = "Market Staff Details";
+            }
+            else if (contractorInfo == "Masjid Staff")
+            {
+                title = "Masjid Staff Form";
+                gpTitle = "Masjid Staff Details";
+            }
+            else if (contractorInfo == "Club Staff")
+            {
+                title = "Club Staff Form";
+                gpTitle = "Club Staff Details";
+                clubStaff = true;
+            }
+            else if (contractorInfo == "WO Staff")
+            {
+                title = "Work Order Staff Form";
+                gpTitle = "Work Order Staff Details";
+            }
+            else if (contractorInfo == "Pallaydar")
+            {
+                title = "Pallaydar Form";
+                gpTitle = "Pallaydar Details";
+            }
+
             this.mContractorInfo = contractorInfo;
             this.mClubStaff = clubStaff;
+
+
+            //category work
+            this.cbxCategory.SelectedItem = this.mContractorInfo;
+            if (!string.IsNullOrEmpty(this.cbxCategory.SelectedItem.ToString().Trim())) 
+            {
+                this.cbxCategory.BackColor = System.Drawing.Color.White;
+            }
+            else
+            {
+                this.cbxCategory.BackColor = System.Drawing.Color.Yellow;
+            }
+            
 
             if (clubStaff)
             {
@@ -340,19 +454,158 @@ namespace LocationManagementSystem
             this.tbxWONumber.BackColor = System.Drawing.Color.White;
             this.tbxLastName.BackColor = System.Drawing.Color.White;
 
-            this.mIsDailyCardHolder = dailyCardHolder;
+            this.mIsDailyCardHolder = true;
             this.mCNICNumber = cnicNumber;
-            this.UpdateLayout(dailyCardHolder);
-
+            this.UpdateLayout(true);
             this.UpdateStatus(cnicNumber);
+
+            if (dailyCardHolder != null)
+            {
+                this.tbxFirstName.Text = dailyCardHolder.FirstName;
+                this.tbxFirstName.BackColor = System.Drawing.Color.White;
+                this.tbxLastName.Text = dailyCardHolder.LastName;
+                this.tbxContactNumber.Text = dailyCardHolder.EmergancyContactNumber;
+                this.cbxCompanyName.SelectedItem = dailyCardHolder.CompanyName;
+                this.pbxSnapShot.Image = EFERTDbUtility.ByteArrayToImage(dailyCardHolder.Picture);
+
+                this.btnUpdateRecord.Visible = true;
+                this.btnCheckIn.Enabled = false;
+                this.tbxCheckInCardNumber.BackColor = System.Drawing.Color.White;
+                this.btnBlock.Enabled = false;                
+            }
         }
 
+        public void categoyDropDownChange(object sender, EventArgs e)
+        {
+          
+            if (string.IsNullOrEmpty(this.cbxCategory.SelectedItem.ToString().Trim()) )
+            {
+                MessageBox.Show("Category can not set empty/null");
+                this.cbxCategory.BackColor = System.Drawing.Color.Yellow;
+                return;
+            }
+
+            this.cbxCategory.BackColor = System.Drawing.Color.White;
+            string contractorInfo = this.cbxCategory.SelectedItem.ToString();
+            string title = string.Empty;
+            string gpTitle = string.Empty;
+            bool clubStaff = false;
+           
+
+          
+            if (contractorInfo== "Casual 3P")
+            {
+                title = "Casual 3P Staff Form";
+                gpTitle = "Casual 3P Details";
+            }
+            else if (contractorInfo == "Market Staff") 
+            {
+                title = "Market Staff Form";
+                gpTitle = "Market Staff Details";
+            }
+            else if (contractorInfo == "Masjid Staff")
+            {
+                title = "Masjid Staff Form";
+                gpTitle = "Masjid Staff Details";
+            }
+            else if (contractorInfo == "Club Staff")
+            {
+                title = "Club Staff Form";
+                gpTitle = "Club Staff Details";
+                clubStaff = true;
+            }
+            else if (contractorInfo == "WO Staff")
+            {
+                title = "Work Order Staff Form";
+                gpTitle = "Work Order Staff Details";
+            }           
+            else if (contractorInfo == "Pallaydar")
+            {
+                title = "Pallaydar Form";
+                gpTitle = "Pallaydar Details";
+            }
+            else if (contractorInfo == "Contractor")
+            {
+                
+            }
+            else if (contractorInfo == "Visitor")
+            {
+                this.Hide();
+
+                VisitorForm vf = new VisitorForm(this.mCNICNumber, "Visitor");
+                vf.ShowDialog(this);
+            }
+            else if (contractorInfo == "Education")
+            {
+                this.Hide();
+
+                VisitorForm vf = new VisitorForm(this.mCNICNumber, "Education", title: "Education Staff Form", gpTitle: "Education Staff Details", schoolStaff: true);
+
+                vf.ShowDialog(this);
+            }
+            else if (contractorInfo == "House Servant")
+            {
+                this.Hide();
+
+                VisitorForm vf = new VisitorForm(this.mCNICNumber, "House Servant", title: "House Servant Form", gpTitle: "House Servant Details");
+                vf.ShowDialog(this);
+            }
+            
+
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                this.Text = title;
+            }
+
+            if (!string.IsNullOrEmpty(gpTitle))
+            {
+                this.groupBox1.Text = gpTitle;
+            }
+
+            this.mContractorInfo = contractorInfo;
+            this.mClubStaff = clubStaff;
+
+            if (clubStaff)
+            {
+                this.lblClubType.Visible = true;
+                this.cbxClubType.Visible = true;
+            }
+            else
+            {
+                this.lblClubType.Visible = false;
+                this.cbxClubType.Visible = false;
+            }
+
+            if (this.mContractorInfo == "Casual 3P")
+            {
+                this.lblAreaOfWork.Visible = true;
+                this.tbxAreaOfWork.Visible = true;
+
+
+                this.tbxAreaOfWork.ReadOnly = false;
+                this.tbxAreaOfWork.BackColor = System.Drawing.Color.White;
+            }
+            else
+            {
+                this.lblAreaOfWork.Visible = false;
+                this.tbxAreaOfWork.Visible = false;
+            }
+
+            if (this.mClubStaff)
+            {
+                this.lblClubType.Location = this.label11.Location;
+                this.cbxClubType.Location = this.tbxWONumber.Location;
+            }
+        }
+
+       
         public void SetCardNumber(string cardNumber)
         {
             this.tbxCheckInCardNumber.Text = cardNumber;
         }
 
-        private void UpdateDropDownFields()
+        private void UpdateDropDownFields(DailyCardHolder dailyCardHolder=null) //category work dailyCardHolder passed b/c to know it is new if null
         {
             List<string> departments = (from depart in EFERTDbUtility.mEFERTDb.Departments
                                         where depart != null && !string.IsNullOrEmpty(depart.DepartmentName)
@@ -384,6 +637,46 @@ namespace LocationManagementSystem
 
             this.cbxDesignation.Items.AddRange(designations.ToArray());
 
+            List<CategoryInfo> inf = (from category in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                      where category != null
+                                      select category).ToList();
+
+            List<string> categories = new List<string>();
+
+            if (SearchForm.mIsPlant)
+            {
+                if (Form1.mLoggedInUser.IsAdmin && (dailyCardHolder != null || this.mCardHolderInfo != null))
+                {
+                    categories = (from cat in inf
+                                  where cat != null && cat.CategoryName != "Visitor" && (cat.CategoryLocation == CategoryLocation.Plant.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                  select cat.CategoryName).ToList();
+                }
+                else
+                {
+                    categories = (from cat in inf
+                                  where cat != null && (cat.CategoryLocation == CategoryLocation.Plant.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                  select cat.CategoryName).ToList();
+                }
+                
+            }
+            else
+            {
+
+                if (Form1.mLoggedInUser.IsAdmin && (dailyCardHolder != null || this.mCardHolderInfo != null))
+                {
+                    categories = (from cat in inf
+                                  where cat != null && cat.CategoryName != "Visitor" && cat.CategoryName != "Education" && cat.CategoryName != "House Servant" && (cat.CategoryLocation == CategoryLocation.Colony.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                  select cat.CategoryName).ToList();
+                }
+                else
+                {
+                    categories = (from cat in inf
+                                  where cat != null &&  (cat.CategoryLocation == CategoryLocation.Colony.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                  select cat.CategoryName).ToList();
+                }
+            }
+
+            this.cbxCategory.Items.AddRange(categories.ToArray());
         }
 
         private void UpdateLayout(bool dailyCardHolder)
@@ -451,12 +744,12 @@ namespace LocationManagementSystem
                 this.lblVisitorStatus.Text = "Invalid User";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
-                this.btnUnBlock.Enabled = false;
+                this.btnUnBlock.Enabled = false;               
                 return;
             }
 
             if (Form1.mLoggedInUser.IsAdmin)
-            {
+            {              
                 this.btnBlock.Visible = true;
                 this.btnUnBlock.Visible = true;
                 this.tbxBlockedBy.ReadOnly = false;
@@ -465,7 +758,7 @@ namespace LocationManagementSystem
                 this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
             }
             else
-            {
+            {               
                 this.btnBlock.Visible = false;
                 this.btnUnBlock.Visible = false;
                 this.tbxBlockedBy.ReadOnly = true;
@@ -543,7 +836,45 @@ namespace LocationManagementSystem
             {
                 if (!blockedUser)
                 {
-                    LimitStatus limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns, this.mBlocks);
+                   
+                    List<CategoryInfo> categories = new List<CategoryInfo>();
+
+                    bool isCheckLimit = true;
+
+                    if (this.mCheckIns.Count > 0)
+                    { 
+                        string blockinfo = CategoryBlockCriteria.No.ToString();
+
+                        if (SearchForm.mIsPlant)
+                        {
+                            categories = (from cat in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                                      where cat != null && cat.CategoryBlockCriteria == blockinfo && (cat.CategoryLocation == CategoryLocation.Plant.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                                      select cat).ToList();                          
+                        }
+                        else
+                        {
+                            categories = (from cat in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                          where cat != null && cat.CategoryBlockCriteria == blockinfo && (cat.CategoryLocation == CategoryLocation.Colony.ToString() || cat.CategoryLocation == CategoryLocation.Any.ToString())
+                                          select cat).ToList();
+                        }
+
+                        CheckInAndOutInfo last = this.mCheckIns.Last();
+
+                        bool catExist = categories.Exists(cat=>cat.CategoryName== last.Category);
+                       
+                        if (catExist)
+                        {
+                            isCheckLimit = !catExist;
+                        }
+                    }
+
+                    LimitStatus limitStatus = LimitStatus.Allowed;
+
+                    if (isCheckLimit)
+                    {
+                        limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns, this.mBlocks);
+                    }
+                 
 
                     if (limitStatus == LimitStatus.LimitReached)
                     {
@@ -976,6 +1307,12 @@ namespace LocationManagementSystem
             }
 
             bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName,  this.tbxCheckInCardNumber });
+
+            
+            if (validtated && this.cbxCategory.SelectedItem==null ||string.IsNullOrEmpty(this.cbxCategory.SelectedItem.ToString().Trim())) //these valdation on check in
+            {
+                validtated = false;
+            }
             if (!validtated)
             {
                 MessageBox.Show(this, "Please fill mandatory fields first.");
@@ -1071,18 +1408,28 @@ namespace LocationManagementSystem
                 }
                 else
                 {
-                    if (this.mContractorInfo == "Casual 3P" || this.mContractorInfo == "Contractor" || this.mContractorInfo == "Pallaydar" || this.mContractorInfo == "WO Staff")
+                    CategoryInfo catInf = (from category in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                           where category != null && category.CategoryName == this.mContractorInfo
+                                           select category).FirstOrDefault();
+                    bool isNonBlockCategory = false;
+
+                    if (catInf != null && catInf.CategoryBlockCriteria == CategoryBlockCriteria.No.ToString())
+                    {
+                        isNonBlockCategory = true;
+                    }
+
+                    if (this.mContractorInfo == "Casual 3P" || this.mContractorInfo == "Contractor" || this.mContractorInfo == "Pallaydar" || this.mContractorInfo == "WO Staff"|| isNonBlockCategory)
                     {
                         if (this.mDailyCardHolder != null)
                         {
                             if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem ||
                                 this.mDailyCardHolder.WONumber == this.tbxWONumber.Text ||
-                                this.mDailyCardHolder.FirstName != this.tbxFirstName.Text)
+                                this.mDailyCardHolder.FirstName != this.tbxFirstName.Text|| this.mDailyCardHolder.ConstractorInfo != this.cbxCategory.SelectedItem.ToString())
                             {
                                 this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
                                 this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
                                 this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
-                                
+                                this.mDailyCardHolder.ConstractorInfo = this.cbxCategory.SelectedItem == null ? string.Empty : this.cbxCategory.SelectedItem as String;
                                 EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
                             }
                         }
@@ -1095,6 +1442,8 @@ namespace LocationManagementSystem
                 {
                     checkedInInfo.DailyCardHolders = this.mDailyCardHolder;
                     checkedInInfo.FirstName = this.mDailyCardHolder.FirstName;
+                    checkedInInfo.Category = this.mDailyCardHolder.ConstractorInfo;
+                   
                 }
                 else
                 {
@@ -1107,6 +1456,8 @@ namespace LocationManagementSystem
                     {
                         checkedInInfo.CardHolderInfos = cardHolderInfo;
                         checkedInInfo.FirstName = cardHolderInfo.FirstName;
+                        checkedInInfo.Category = cardHolderInfo.ConstractorInfo;
+                       
                     }
                 }
 
@@ -1137,18 +1488,6 @@ namespace LocationManagementSystem
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = true;
                 
-
-
-                if (NewColonyChForm.mNewColonyChForm != null)
-                {
-                    NewColonyChForm.mNewColonyChForm.Close();
-                }
-
-                if (NewPlantChForm.mNewPlantChForm != null)
-                {
-                    NewPlantChForm.mNewPlantChForm.Close();
-                }
-
                 this.Close();
             }
             else
@@ -1207,15 +1546,7 @@ namespace LocationManagementSystem
                 this.btnCheckIn.Enabled = true;
                 this.btnCheckOut.Enabled = false;
 
-                if (NewColonyChForm.mNewColonyChForm != null)
-                {
-                    NewColonyChForm.mNewColonyChForm.Close();
-                }
-
-                if (NewPlantChForm.mNewPlantChForm != null)
-                {
-                    NewPlantChForm.mNewPlantChForm.Close();
-                }
+               
                 this.Close();
             }
             else
@@ -1315,6 +1646,144 @@ namespace LocationManagementSystem
             }
 
 
+        }
+
+        private void btnUpdateRecord_Click(object sender, EventArgs e)
+        {
+            
+            if (!this.tbxCNICNumber.MaskCompleted)
+            {
+                MessageBox.Show(this, "Please Enter correct CNIC NUMBER.");
+                this.tbxCNICNumber.ReadOnly = false;
+                this.tbxCNICNumber.BackColor = System.Drawing.Color.White;
+                return;
+            }
+
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName });
+
+
+            if (validtated && this.cbxCategory.SelectedItem == null || string.IsNullOrEmpty(this.cbxCategory.SelectedItem.ToString().Trim())) //these valdation on check in
+            {
+                validtated = false;
+            }
+            if (!validtated)
+            {
+                MessageBox.Show(this, "Please fill mandatory fields first.");
+                return;
+            }
+                 
+                if (this.mContractorCardHolder == null && this.mDailyCardHolder == null)
+                {
+                    if (this.mIsDailyCardHolder)
+                    {
+                        DailyCardHolder dailyCardHolder = new DailyCardHolder()
+                        {
+                            FirstName = this.tbxFirstName.Text,
+                            LastName = this.tbxLastName.Text,
+                            Department = this.cbxDepartment.SelectedItem == null ? string.Empty : this.cbxDepartment.SelectedItem as string,
+                            Cadre = this.cbxCadre.SelectedItem == null ? string.Empty : this.cbxCadre.SelectedItem as string,
+                            CNICNumber = this.tbxCNICNumber.Text,
+                            CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as string,
+                            Designation = this.cbxDesignation.SelectedItem == null ? string.Empty : this.cbxDesignation.SelectedItem as string,
+                            EmergancyContactNumber = this.tbxContactNumber.Text,
+                            WONumber = this.tbxWONumber.Text,
+                            ConstractorInfo = this.mContractorInfo,
+                            Section = this.cbxSection.SelectedItem == null ? string.Empty : this.cbxSection.SelectedItem as string,
+                        };
+
+                        if (this.pbxSnapShot.Image != null)
+                        {
+                            dailyCardHolder.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                        }
+
+                        if (this.mClubStaff)
+                        {
+                            dailyCardHolder.ClubType = this.cbxClubType.SelectedItem == null ? string.Empty : this.cbxClubType.SelectedItem as String;
+                        }
+
+                        if (this.mContractorInfo == "Casual 3P")
+                        {
+                            dailyCardHolder.AreaOfWork = this.tbxAreaOfWork.Text;
+                        }
+
+                        EFERTDbUtility.mEFERTDb.DailyCardHolders.Add(dailyCardHolder);
+                        //EFERTDbUtility.mEFERTDb.SaveChanges();
+
+                        this.mDailyCardHolder = dailyCardHolder;
+
+                    }
+                    //else
+                    //{
+                    //    cardHolderInfo = new CardHolderInfo()
+                    //    {
+                    //        FirstName = this.tbxFirstName.Text,
+                    //        CNICNumber = string.IsNullOrEmpty(this.mCNICNumber) ? null : this.mCNICNumber,
+                    //        IsTemp = true,
+                    //        ConstractorInfo = this.mContractorInfo
+                    //    };
+
+                    //    if (this.pbxSnapShot.Image != null)
+                    //    {
+                    //        cardHolderInfo.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                    //    }
+
+                    //    EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
+                    //    //EFERTDbUtility.mEFERTDb.SaveChanges();
+
+                    //    this.mCardHolderInfo = cardHolderInfo;
+
+                    //}
+
+                }
+                else
+                {
+                    CategoryInfo catInf = (from category in EFERTDbUtility.mEFERTDb.CategoryInfo
+                                           where category != null && category.CategoryName == this.mContractorInfo
+                                           select category).FirstOrDefault();
+                    bool isNonBlockCategory = false;
+
+                    if (catInf != null && catInf.CategoryBlockCriteria == CategoryBlockCriteria.No.ToString())
+                    {
+                        isNonBlockCategory = true;
+                    }
+
+                    if (this.mContractorInfo == "Casual 3P" || this.mContractorInfo == "Contractor" || this.mContractorInfo == "Pallaydar" || this.mContractorInfo == "WO Staff" || isNonBlockCategory)
+                    {
+                        if (this.mDailyCardHolder != null)
+                        {
+                            if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem ||
+                                this.mDailyCardHolder.WONumber == this.tbxWONumber.Text ||
+                                this.mDailyCardHolder.FirstName != this.tbxFirstName.Text || this.mDailyCardHolder.ConstractorInfo != this.cbxCategory.SelectedItem.ToString())
+                            {
+                                this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
+                                this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+                                this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
+                                this.mDailyCardHolder.ConstractorInfo = this.cbxCategory.SelectedItem == null ? string.Empty : this.cbxCategory.SelectedItem as String;
+                                EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                            }
+                        }
+                    }
+                }
+
+                
+
+                try
+                {
+                   
+                    EFERTDbUtility.mEFERTDb.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    EFERTDbUtility.RollBack();
+
+                    MessageBox.Show(this, "Some error occurred in issuing card.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                    return;
+                }
+
+              
+                this.Close();
+            
+           
         }
     }
 }

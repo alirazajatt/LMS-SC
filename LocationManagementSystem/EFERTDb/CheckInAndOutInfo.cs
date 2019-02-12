@@ -45,6 +45,8 @@ namespace LocationManagementSystem
 
         public bool CheckInToColony { get; set; }
 
+        public string Category { get; set; }
+
         [ForeignKey("CardHolderInfos")]
         public int? CardHolderId { get; set; }
 
