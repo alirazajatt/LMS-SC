@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IntermecIsdc;
+using System.Reflection;
 
 namespace LocationManagementSystem
 {
@@ -44,8 +45,8 @@ namespace LocationManagementSystem
             {
                 this.lblLocation.Text = "Colony";
             }
-           
-           
+
+            this.lblversion.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private IntermecIsdc.DllErrorCode ScannerInit()

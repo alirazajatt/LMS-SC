@@ -33,6 +33,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.btnAdminPanel = new System.Windows.Forms.Button();
             this.btnSignOut = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -87,11 +88,21 @@
             this.btnSignOut.UseVisualStyleBackColor = false;
             this.btnSignOut.Click += new System.EventHandler(this.btnSignOut_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(34, 205);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 28);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "version";
+            // 
             // LocationSelectorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(418, 242);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSignOut);
             this.Controls.Add(this.btnAdminPanel);
             this.Controls.Add(this.button2);
@@ -105,6 +116,7 @@
             this.Text = "Location";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LocationSelectorForm_FormClosed);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -114,5 +126,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnAdminPanel;
         private System.Windows.Forms.Button btnSignOut;
+        private System.Windows.Forms.Label label1;
     }
 }

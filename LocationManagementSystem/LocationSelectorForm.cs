@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace LocationManagementSystem
@@ -21,6 +22,8 @@ namespace LocationManagementSystem
             mLocationSelectorForm = this;
 
             this.btnAdminPanel.Visible = Form1.mLoggedInUser.IsAdmin;
+
+            this.label1.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
